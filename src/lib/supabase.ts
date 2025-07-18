@@ -1,9 +1,25 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://syhslssfqzbthppprkau.supabase.co'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5aHNsc3NmcXpidGhwcHBya2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NTQ1MzYsImV4cCI6MjA2NzIzMDUzNn0.KDoKpFB4dbJnD47NR_HF_aftqPdvaf5VwLJztu9DurM'
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Debug: log das variáveis (apenas em desenvolvimento)
+if (process.env.NODE_ENV === 'development') {
+  console.log('Supabase URL:', supabaseUrl)
+  console.log('Supabase Key:', supabaseAnonKey ? 'Configurada' : 'Não configurada')
+}
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Variáveis de ambiente do Supabase não configuradas')
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
+})
 
 export type Database = {
   public: {
