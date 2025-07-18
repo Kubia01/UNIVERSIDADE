@@ -6,6 +6,12 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+
+    extend: {},
+  },
+  plugins: [],
+}
+
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -51,3 +57,4 @@ module.exports = {
   },
   plugins: [],
 }
+
